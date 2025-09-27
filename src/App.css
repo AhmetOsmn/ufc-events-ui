@@ -1,42 +1,108 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #ea2a33;
+  --color-background-light: #f8f6f6;
+  --color-background-dark: #211111;
+
+  --font-family-display: "Space Grotesk", sans-serif;
+
+  --radius: 0.25rem;
+  --radius-lg: 0.5rem;
+  --radius-xl: 0.75rem;
+  --radius-full: 9999px;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
-}
+@variant dark (&:where(.dark, .dark *));
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
+/* Responsive tasarım geliştirmeleri */
+@media (max-width: 640px) {
+  /* Mobil cihazlarda scroll davranışını iyileştir */
+  body {
+    overflow-x: hidden;
   }
-  to {
-    transform: rotate(360deg);
-  }
-}
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
+  /* Küçük metin boyutlarını daha okunabilir hale getir */
+  .text-xs {
+    font-size: 0.75rem !important;
+    line-height: 1.2 !important;
   }
 }
 
-.card {
-  padding: 2em;
+/* Tablet ve küçük masaüstü ekranlar için optimizasyon */
+@media (min-width: 641px) and (max-width: 1279px) {
+  /* Orta boyut ekranlarda padding'i optimize et */
+  .p-4 {
+    padding: 0.75rem !important;
+  }
+
+  /* İçerik alanının tam kullanımını sağla */
+  .max-w-xs {
+    max-width: 100% !important;
+  }
 }
 
-.read-the-docs {
-  color: #888;
+/* Touch device optimizations */
+@media (hover: none) and (pointer: coarse) {
+  /* Dokunmatik cihazlarda button'ları daha büyük yap */
+  button {
+    min-height: 44px;
+  }
+
+  /* Hover efektlerini devre dışı bırak */
+  .hover\:bg-primary\/20:hover {
+    background-color: inherit;
+  }
+
+  .group:hover .group-hover\:opacity-100 {
+    opacity: 1;
+  }
+}
+
+/* Animasyonları tercih etmeyenler için */
+@media (prefers-reduced-motion: reduce) {
+  .animate-spin {
+    animation: none;
+  }
+
+  .transition-all,
+  .transition-colors,
+  .transition-transform,
+  .transition-opacity {
+    transition: none !important;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .border-primary\/20 {
+    border-color: rgba(234, 42, 51, 0.5);
+  }
+
+  .text-slate-500 {
+    color: #475569;
+  }
+}
+
+/* Scroll optimizasyonları */
+.overflow-y-auto {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(156, 163, 175, 0.5) transparent;
+}
+
+.overflow-y-auto::-webkit-scrollbar {
+  width: 6px;
+}
+
+.overflow-y-auto::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.overflow-y-auto::-webkit-scrollbar-thumb {
+  background-color: rgba(156, 163, 175, 0.5);
+  border-radius: 3px;
+}
+
+.overflow-y-auto::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(156, 163, 175, 0.7);
 }

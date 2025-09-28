@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { MdEventNote, MdWarning } from "react-icons/md";
 import "./App.css";
@@ -6,16 +6,45 @@ import EventDetails from "./components/EventDetails";
 import EventSidebar from "./components/EventSidebar";
 import Header from "./components/Header";
 import { useEvents } from "./hooks/useEvents";
+import { useEventSelectionStore } from "./stores/eventSelectionStore";
 
 function App() {
   // API'den etkinlikleri getir
   const { data: events, isLoading, isError, error } = useEvents();
+
+  // Zustand store actions
+  const setEvents = useEventSelectionStore((state) => state.setEvents);
+  const setEventsLoading = useEventSelectionStore(
+    (state) => state.setEventsLoading
+  );
+  const setEventsError = useEventSelectionStore(
+    (state) => state.setEventsError
+  );
 
   // İlk etkinliği seçili olarak ayarla (veriler yüklendiğinde)
   const [selectedEventId, setSelectedEventId] = useState<string>("");
 
   // Events'in array olduğundan emin ol
   const eventsArray = Array.isArray(events) ? events : [];
+
+  // Store'u güncel tutmak için useEffect
+  useEffect(() => {
+    setEventsLoading(isLoading);
+  }, [isLoading, setEventsLoading]);
+
+  useEffect(() => {
+    if (isError) {
+      setEventsError(error?.message || "Eventler yüklenirken hata oluştu");
+    } else {
+      setEventsError(null);
+    }
+  }, [isError, error, setEventsError]);
+
+  useEffect(() => {
+    if (eventsArray.length > 0) {
+      setEvents(eventsArray);
+    }
+  }, [eventsArray, setEvents]);
 
   // Etkinlikler yüklendiğinde ve henüz seçili etkinlik yoksa, ilk etkinliği seç
   if (eventsArray.length > 0 && !selectedEventId) {
@@ -114,9 +143,9 @@ function App() {
       <div className="flex min-h-screen w-full flex-col">
         <Header />
         <main className="flex flex-1">
-          {/* Masaüstünde sidebar always visible, mobilde toggle ile kontrol */}
+          {/* Ana content area - responsive layout */}
           <div className="flex w-full">
-            {/* Sidebar - mobilde drawer olarak */}
+            {/* Sol sidebar - Event listesi (masaüstünde) */}
             <div className="hidden lg:block">
               <EventSidebar
                 events={eventsArray}
@@ -125,7 +154,7 @@ function App() {
               />
             </div>
 
-            {/* Event Details - responsive */}
+            {/* Event detayları - ana alan */}
             <div className="flex-1 w-full lg:w-auto">
               <EventDetails
                 event={selectedEvent || eventsArray[0]}

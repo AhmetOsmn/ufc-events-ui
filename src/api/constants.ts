@@ -2,8 +2,8 @@
 export const API_CONFIG = {
   BASE_URL: "http://localhost:5230", // Gerçek API URL'inizi buraya ekleyin
   ENDPOINTS: {
-    EVENTS: "/events",
-    SEND_EMAIL: "/send-email",
+    EVENTS: "/api/events",
+    SEND_EMAIL: "/api/events/subscribe",
   },
   TIMEOUT: 10000, // 10 saniye
 } as const;
@@ -20,5 +20,5 @@ export const QUERY_KEYS = {
 
 // Mutation keys (React Query için)
 export const MUTATION_KEYS = {
-  SEND_EMAIL: ["sendEmail"] as const,
+  SUBSCRIBE_EVENTS: ["subscribeEvents"] as const,
 } as const;

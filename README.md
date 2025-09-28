@@ -1,73 +1,147 @@
-# React + TypeScript + Vite
+# UFC Events UI
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Modern ve kullanıcı dostu UFC etkinlikleri takip uygulaması. Yaklaşan UFC etkinliklerini görüntüleyin, detaylarını inceleyin ve takvime eklemek için email bildirimlerini alın.
 
-Currently, two official plugins are available:
+## 🥊 Özellikler
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### ⚔️ Dövüş Kartları
 
-## React Compiler
+- Dövüşçü isimleri ve ülke bilgileri
+- Sıralama (ranking) verileri
+- Dövüş sicilleri (record)
+- Ağırlık kategorileri
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### 📧 Takvim Entegrasyonu
 
-## Expanding the ESLint configuration
+- E-mail ile takvim ekleme
+- Çoklu etkinlik seçimi
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### 🎨 Modern Arayüz
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- **Koyu/Açık Tema**: Otomatik tema değişimi
+- **Mobil Uyumlu**: Responsive layout
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## 🛠 Teknoloji Stack
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### Frontend
+
+- **React 19** - Modern React özellikleri
+- **TypeScript** - Tip güvenliği
+- **Vite** - Hızlı geliştirme ortamı
+- **Tailwind CSS** - Utility-first CSS framework
+
+### State Management
+
+- **Zustand** - Hafif state management
+- **React Query** - API state yönetimi ve caching
+
+### Geliştirici Araçları
+
+- **Zod** - Schema validation
+
+## 🚀 Kurulum
+
+### Gereksinimler
+
+- Node.js (18+ önerilen)
+- pnpm package manager
+
+### Kurulum Adımları
+
+```bash
+# Repository'i klonlayın
+git clone <repository-url>
+cd ufc-events-ui
+
+# Bağımlılıkları yükleyin
+pnpm install
+
+# Geliştirme sunucusunu başlatın
+pnpm dev
+
+# Production build oluşturun
+pnpm build
+
+# Build'i önizleyin
+pnpm preview
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## 📁 Proje Yapısı
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
 ```
+src/
+├── api/                    # API servisleri
+│   ├── constants.ts        # API konfigürasyonu
+│   └── services.ts         # HTTP istekleri
+├── components/             # React bileşenleri
+│   ├── EventDetails.tsx    # Etkinlik detay görünümü
+│   ├── EventSidebar.tsx    # Etkinlik listesi
+│   ├── FightCard.tsx       # Dövüş kartı bileşeni
+│   └── Header.tsx          # Ana başlık ve kontroller
+├── hooks/                  # Custom React hooks
+│   ├── useCalendarMutation.ts
+│   └── useEvents.ts        # Etkinlik API hook'u
+├── stores/                 # Zustand store'lar
+│   ├── eventSelectionStore.ts  # Etkinlik seçim state
+│   └── themeStore.ts          # Tema yönetimi
+├── types/                  # TypeScript tip tanımları
+│   └── index.ts
+└── providers/              # React providers
+    └── QueryProvider.tsx   # React Query provider
+```
+
+## 🔧 Kullanım
+
+### Etkinlik Görüntüleme
+
+1. Uygulama açıldığında otomatik olarak etkinlikler yüklenir
+2. Sol sidebar'dan (masaüstü) veya üst menüden (mobil) etkinlik seçin
+3. Seçilen etkinliğin detayları ana alanda görüntülenir
+
+### Takvime Ekleme
+
+1. Header'daki dropdown'dan istediğiniz etkinlikleri seçin
+2. E-mail adresinizi girin
+3. "Takvime ekle" butonuna tıklayın
+4. E-mail ile takvim daveti gönderilir
+
+### Tema Değiştirme
+
+- Header'daki tema butonuna tıklayarak koyu/açık tema arasında geçiş yapın
+- Tercih otomatik olarak kaydedilir
+
+## 🎯 API Entegrasyonu
+
+Uygulama aşağıdaki endpoint'leri kullanır:
+
+```typescript
+// UFC etkinliklerini listeler
+GET /api/events
+
+// Email ile etkinlik aboneliği oluşturur
+POST /api/events/subscribe
+{
+  "email": "user@example.com",
+  "selectedEventIds": ["event1", "event2"]
+}
+```
+
+## 🤝 Katkıda Bulunma
+
+1. Repository'i fork edin
+2. Feature branch oluşturun (`git checkout -b feature/amazing-feature`)
+3. Değişikliklerinizi commit edin (`git commit -m 'Add amazing feature'`)
+4. Branch'inizi push edin (`git push origin feature/amazing-feature`)
+5. Pull Request oluşturun
+
+## 📄 Lisans
+
+Bu proje [MIT License](LICENSE) altında lisanslanmıştır.
+
+## 📞 İletişim
+
+Sorularınız için issue oluşturun veya pull request gönderin.
+
+---
+
+**UFC Events UI** - Modern web teknolojileri ile geliştirilmiş, kullanıcı dostu UFC etkinlik takip uygulaması.

@@ -47,6 +47,12 @@ async function apiRequest<T>(
   } catch (error) {
     clearTimeout(timeoutId);
     if (error instanceof Error) {
+      // AbortError (timeout) durumunda kullanıcı dostu mesaj
+      if (error.name === "AbortError") {
+        throw new Error(
+          "İstek zaman aşımına uğradı. Sunucu çok yavaş yanıt veriyor veya yoğun olabilir. Lütfen birkaç dakika bekleyip tekrar deneyin."
+        );
+      }
       throw error;
     }
     throw new Error("Bilinmeyen bir hata oluştu");
@@ -58,9 +64,10 @@ export async function fetchEvents(): Promise<Event[] | null> {
   return apiRequest<Event[] | null>(API_CONFIG.ENDPOINTS.EVENTS);
 }
 
-// Email gönderme servisi - sadece email parametresi
+// Etkinlik aboneliği oluştur - email ve seçilen eventIds ile
 export async function addEventToCalendar(emailData: {
   email: string;
+  selectedEventIds: string[];
 }): Promise<{ success: boolean; message: string }> {
   try {
     // API'yi çağır - yeni format: {message, data}
@@ -75,12 +82,14 @@ export async function addEventToCalendar(emailData: {
     // Başarılı durumda standart format döndür
     return {
       success: true,
-      message: response?.message || "Email başarıyla gönderildi",
+      message: response?.message || "Abonelik başarıyla oluşturuldu",
     };
   } catch (error) {
     // Hata durumunda standart format döndür
     throw new Error(
-      error instanceof Error ? error.message : "Email gönderilirken hata oluştu"
+      error instanceof Error
+        ? error.message
+        : "Abonelik oluşturulurken hata oluştu"
     );
   }
 }
